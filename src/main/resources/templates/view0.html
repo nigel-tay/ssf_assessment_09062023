@@ -21,6 +21,9 @@
 					<td>
 						<input data-th-field="*{username}" type="text" id="username" size="30" 
 								placeholder="Please type in your username">
+						<div data-th-if="${#fields.hasErrors('username')}">
+							<span data-th-errors="*{username}" style="color: red; font-family: monospace;"></span>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -30,6 +33,9 @@
 					<td>
 						<input data-th-field="*{password}" type="password" id="password" size="30" 
 								placeholder="Please type in your password">
+						<div data-th-if="${#fields.hasErrors('password')}">
+							<span data-th-errors="*{password}" style="color: red; font-family: monospace;"></span>
+						</div>
 					</td>
 				</tr>
 				<tr>
