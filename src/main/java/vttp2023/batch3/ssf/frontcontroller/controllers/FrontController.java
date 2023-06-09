@@ -48,13 +48,26 @@ public class FrontController {
 		}
 		if (authRepo.checkUserDisabled(authForm.getUsername())) { // is user is not disabled
 			authenticated = authService.authenticate(authForm.getUsername(), authForm.getPassword());
-			System.out.println("NUMBER 1111111");
 			if (authenticated) {
 				session.setAttribute("authenticated", true);
 				session.removeAttribute("sessionFailedCount");
 				return "view1";
 			}
 			else { // FIRST FAILED ATTEMPT
+				int failCount = session.getAttribute("sessionFailedCount") == null
+							? 1
+							: Integer.parseInt(session.getAttribute("sessionFailedCount").toString());
+				if (failCount != 1) {
+					session.removeAttribute("sessionFailedCount");
+					session.setAttribute("sessionFailedCount", Integer.toString(failCount++));
+					System.out.println(session.getAttribute("sessionFailedCount"));
+					if (authService.evaluateCaptcha(captcha)) {
+						session.setAttribute("authenticated", true);
+						session.removeAttribute("sessionFailedCount");
+						return "view1";
+					}
+				}
+				session.setAttribute("sessionFailedCount", "1");
 				session.setAttribute("captchaExists", "true");
 				captcha.setCaptchaFailed(true);
 				m.addAttribute("captcha", captcha);
