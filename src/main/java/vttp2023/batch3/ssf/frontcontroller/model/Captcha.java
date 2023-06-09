@@ -10,6 +10,7 @@ public class Captcha implements Serializable{
     private String number2;
     private String operation;
     private String answer;
+    
 
     public boolean isCaptchaFailed() {
         return captchaFailed;

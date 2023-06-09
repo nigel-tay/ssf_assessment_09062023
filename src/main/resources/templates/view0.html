@@ -54,6 +54,12 @@
 					<td>
 						<button type="submit">Login</button>
 					</td>
+					<td th:if="${authForm.getFailedCount() > 0 && authForm.getFailedCount < 4}">
+						<span data-th-text="'You have ' + ${3 - authForm.getFailedCount()} + ' more attempt(s)'"></span>
+					</td>
+					<!--<td th:if="${authForm.isDisabled()}">
+						<span data-th-text="'User ' + authForm.getUsername() + ' has been deativated for 30 mins'"></span>
+					</td>-->
 				</tr>
 			</table>
 		</form>

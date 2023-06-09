@@ -1,6 +1,8 @@
 package vttp2023.batch3.ssf.frontcontroller.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -13,6 +15,9 @@ import vttp2023.batch3.ssf.frontcontroller.model.Captcha;
 
 @Service
 public class AuthenticationService {
+	@Autowired
+	
+
 	@Value("${ssfassessment.auth.endpoint.url}")
 	private String url;
 
