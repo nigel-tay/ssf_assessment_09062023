@@ -38,6 +38,10 @@ public class FrontController {
 					HttpSession session,
 					Model m) throws Exception {
 		if (br.hasErrors()) {
+			if (session.getAttribute("captchaExists").toString().equals("true")) {
+				captcha.setCaptchaFailed(true);
+				return "view0";
+			}
 			m.addAttribute("captcha", captcha);
 			m.addAttribute("authForm", authForm);
 			return "view0";	
