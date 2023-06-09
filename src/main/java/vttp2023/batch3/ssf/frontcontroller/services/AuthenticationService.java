@@ -12,11 +12,12 @@ import org.springframework.web.client.RestTemplate;
 
 import vttp2023.batch3.ssf.frontcontroller.model.AuthForm;
 import vttp2023.batch3.ssf.frontcontroller.model.Captcha;
+import vttp2023.batch3.ssf.frontcontroller.respositories.AuthenticationRepository;
 
 @Service
 public class AuthenticationService {
 	@Autowired
-	
+	AuthenticationRepository authRepo;
 
 	@Value("${ssfassessment.auth.endpoint.url}")
 	private String url;
@@ -42,9 +43,9 @@ public class AuthenticationService {
 			try {
 				ResponseEntity<String> resp = template.exchange(req, String.class);
 				System.out.println(resp.getBody());
-				// COME BACK TO THIS LATER
 				System.out.println(resp.getStatusCode().toString());
 				if (resp.getStatusCode().toString().equals("201 CREATED")) {
+					authRepo.
 					return true;
 				}
 				else {

@@ -1,6 +1,7 @@
 package vttp2023.batch3.ssf.frontcontroller.respositories;
 
 import java.time.Duration;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,15 +29,15 @@ public class AuthenticationRepository {
 		return true;
 	}
 
-	// public void saveToRedis(String username, String id) {
-    //     template.opsForValue().append(id, json);
-    // }
+	public void saveToRedis(String username, String json) {
+        template.opsForValue().append(username, json);
+    }
     
-    // public Optional<String> retrieveRedisOrder(String id) {
-    //     if (template.opsForValue().get(id) == null) {
-    //         return Optional.empty();
-    //     }
-    //     return Optional.of((String)template.opsForValue().get(id));
-    // }
+    public Optional<String> retrieveRedisOrder(String username) {
+        if (template.opsForValue().get(username) == null) {
+            return Optional.empty();
+        }
+        return Optional.of((String)template.opsForValue().get(username));
+    }
 
 }
