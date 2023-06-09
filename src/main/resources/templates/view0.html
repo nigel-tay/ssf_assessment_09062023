@@ -39,7 +39,18 @@
 					</td>
 				</tr>
 				<tr>
-					<td></td>
+					<td data-th-object="${captcha}">
+						<div th:if="${captcha.isCaptchaFailed()}">
+							<span>What is </span>
+							<span data-th-text="*{number1}"></span> 
+							<span data-th-text="*{operation}"></span> 
+							<span data-th-text="*{number2}"></span>
+							<span> ?</span>
+							<input type="text" data-th-field="*{answer}">
+						</div>
+					</td>
+				</tr>
+				<tr>
 					<td>
 						<button type="submit">Login</button>
 					</td>

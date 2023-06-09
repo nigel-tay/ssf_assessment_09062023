@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import vttp2023.batch3.ssf.frontcontroller.model.AuthForm;
+import vttp2023.batch3.ssf.frontcontroller.model.Captcha;
 
 @Service
 public class AuthenticationService {
 	@Value("${ssfassessment.auth.endpoint.url}")
 	private String url;
+
+	private String correctAnswer = "";
 
 	// TODO: Task 2
 	// DO NOT CHANGE THE METHOD'S SIGNATURE
@@ -47,5 +50,35 @@ public class AuthenticationService {
 	// Write an implementation to check if a given user's login has been disabled
 	public boolean isLocked(String username) {
 		return false;
+	}
+
+	public boolean evaluateCaptcha(Captcha captcha) {
+		final int num1 = Integer.parseInt(captcha.getNumber1());
+		final int num2 = Integer.parseInt(captcha.getNumber2());
+		final String operation = captcha.getOperation();
+		final String answer = captcha.getAnswer();
+
+		switch(operation) {
+			case "+":
+				correctAnswer = Integer.toString(num1 + num2);
+				break;
+			case "-":
+				correctAnswer = Integer.toString(num1 - num2);
+				break;
+			case "*":
+				correctAnswer = Integer.toString(num1 * num2);
+				break;
+			case "/":
+				correctAnswer = Integer.toString(num1 / num2);
+				break;
+		}
+
+		if (correctAnswer.equals(answer)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+
 	}
 }

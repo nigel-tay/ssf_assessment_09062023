@@ -13,7 +13,6 @@ public class AuthForm implements Serializable{
 
     @Size(min=2, message = "Password should contain 2 or more characters")
     private String password;
-
     
     public AuthForm(String username, String password) {
         this.username = username;
