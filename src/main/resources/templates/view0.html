@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+	TODO: Task 1, Task 2, Task 3
+-->
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Login</title>
+	</head>
+	<body>
+
+		<h2>Please Login</h2>
+
+		<form method="POST" action="/login" data-th-object="${authForm}">
+			<table>
+				<tr>
+					<td> 
+						<label for="username">Username:</label> 
+					</td>
+					<td>
+						<!--<input data-th-field="*{username}" type="text" id="username" size="30" 
+								placeholder="Please type in your username" >-->
+						<input 
+							type="text" 
+							name="username" 
+							data-th-field="*{username}" 
+							placeholder="Please type in your username"> 
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="password">Password:</label>
+					</td>
+					<td>
+						<!--<input data-th-field="*{password}" type="password" id="password" size="30" 
+								placeholder="Please type in your password">-->
+						<input 
+						type="text" 
+						name="password" 
+						data-th-field="*{password}" 
+						placeholder="Please type in your password"> 
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<button type="submit">Login</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+		
+	</body>
+</html>
