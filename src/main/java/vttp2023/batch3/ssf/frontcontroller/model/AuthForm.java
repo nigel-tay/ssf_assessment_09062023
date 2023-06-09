@@ -13,7 +13,7 @@ public class AuthForm implements Serializable{
     @Size(min=2, message = "Password should contain 2 or more characters")
     private String password;
 
-    private int failedCount = 0;
+    private int failedCount;
 
     private boolean disabled = false;
     

@@ -26,7 +26,7 @@ public class AuthenticationService {
 	// TODO: Task 2
 	// DO NOT CHANGE THE METHOD'S SIGNATURE
 	// Write the authentication method in here
-	public void authenticate(String username, String password) throws Exception {
+	public boolean authenticate(String username, String password) throws Exception {
 		String loginJsonString = AuthForm.toJsonString(username, password);
 		System.out.println(url);
 		System.out.println(loginJsonString);
@@ -39,9 +39,22 @@ public class AuthenticationService {
 			.headers(headers)
 			.body(loginJsonString, String.class);
 			RestTemplate template = new RestTemplate();
-			ResponseEntity<String> resp = template.exchange(req, String.class);
-			System.out.println(resp.getBody());
-			// COME BACK TO THIS LATER
+			try {
+				ResponseEntity<String> resp = template.exchange(req, String.class);
+				System.out.println(resp.getBody());
+				// COME BACK TO THIS LATER
+				System.out.println(resp.getStatusCode().toString());
+				if (resp.getStatusCode().toString().equals("201 CREATED")) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+				return false;
+			}
 	}
 
 	// TODO: Task 3

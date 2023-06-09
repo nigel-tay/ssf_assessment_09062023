@@ -36,50 +36,63 @@ public class FrontController {
 					BindingResult br, 
 					Captcha captcha,
 					HttpSession session,
-					Model m) {
+					Model m) throws Exception {
 		if (br.hasErrors()) {
+			m.addAttribute("captcha", captcha);
+			m.addAttribute("authForm", authForm);
 			return "view0";	
 		}
-		if (!authRepo.checkUserDisabled(authForm.getUsername())) { // is user is not disabled
-			// authService.authenticate(authForm.getUsername(), authForm.getPassword());
+		if (authRepo.checkUserDisabled(authForm.getUsername())) { // is user is not disabled
+			authenticated = authService.authenticate(authForm.getUsername(), authForm.getPassword());
 			System.out.println("NUMBER 1111111");
-			authForm.setDisabled(true);
-			authenticated = false;
-			if (authenticated) { // PASS AUTHENTICATION
+			if (authenticated) {
 				session.setAttribute("authenticated", true);
-				authForm.setFailedCount(0);
+				session.removeAttribute("sessionFailedCount");
 				return "view1";
 			}
 			else { // FIRST FAILED ATTEMPT
-				captcha.setCaptchaFailed(true); // display captcha
-				if (authForm.getFailedCount() != 3) { // ALLOW RETRY UP TO 3
-					// authService.authenticate(authForm.getUsername(), authForm.getPassword());
-					authenticated = false;
-					if (authenticated) {
-						session.setAttribute("authenticated", true);
-						authForm.setFailedCount(0);
-						return "view1";
-					}
-					else {
-						int tempAuthCount = authForm.getFailedCount();
-						authForm.setFailedCount(tempAuthCount++);
-						System.out.println(authForm.getFailedCount());
-						m.addAttribute("captcha", captcha);
-						m.addAttribute("authForm", authForm);
-						return "view0";
-					}
-				}
-				else {
-					authService.disableUser(authForm.getUsername());
-					m.addAttribute("captcha", captcha);
-					m.addAttribute("authForm", authForm);
-					return "view0";
-				}
+				session.setAttribute("captchaExists", "true");
+				captcha.setCaptchaFailed(true);
+				m.addAttribute("captcha", captcha);
+				return "view0";
+			// 	System.out.println("LAYER 1");
+			// 	System.out.println(session.getAttribute("sessionFailedCount"));
+			// 	String failCount = session.getAttribute("sessionFailedCount") == null
+			// 										? "1" 
+			// 										: session.getAttribute("sessionFailedCount").toString();
+			// 	session.setAttribute("sessionFailedCount", failCount);
+			// 	session.setAttribute("captchaExists", "true");
+			// 	if (Integer.parseInt(failCount) != 3) { // ALLOW RETRY UP TO 3
+			// 		// authService.authenticate(authForm.getUsername(), authForm.getPassword());
+			// 		authenticated = false;
+			// 		if (authenticated) {
+			// 			session.setAttribute("authenticated", true);
+			// 			authForm.setFailedCount(0);
+			// 			return "view1";
+			// 		}
+			// 		else {
+			// 			System.out.println("LAYER 2");
+			// 			int tempCount = Integer.parseInt(failCount);
+			// 			session.removeAttribute("sessionFailedCount");
+			// 			session.setAttribute("sessionFailedCount", Integer.toString(tempCount++));
+			// 			System.out.println(Integer.toString(tempCount++));
+			// 			System.out.println((String)session.getAttribute("sessionFailedCount"));
+			// 			m.addAttribute("captcha", captcha);
+			// 			m.addAttribute("authForm", authForm);
+			// 			return "view0";
+			// 		}
+			// 	}
+			// 	else {
+			// 		System.out.println("LAYER 3");
+			// 		authService.disableUser(authForm.getUsername());
+			// 		m.addAttribute("captcha", captcha);
+			// 		m.addAttribute("authForm", authForm);
+			// 		return "view0";
+			// 	}
 			}
-
 		}
 		else {
-			System.out.println("NUMBER 222222222222222");
+			System.out.println("LAYER 4");
 			authForm.setDisabled(true);
 			m.addAttribute("authForm", authForm);
 			return "view2";
